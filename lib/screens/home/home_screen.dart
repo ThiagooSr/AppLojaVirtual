@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/models/home_manager.dart';
 import 'package:lojavirtualapp/models/user_manager.dart';
+import 'package:lojavirtualapp/screens/home/components/add_section_widget.dart';
 import 'package:lojavirtualapp/screens/home/components/section_list.dart';
 import 'package:provider/provider.dart';
 
