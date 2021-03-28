@@ -18,6 +18,10 @@ class Section {
   String type;
   List<SectionItem> items;
 
+  void addItem(SectionItem item){
+    items.add(item);
+  }
+
   Section clone(){
     return Section(
       name: name,
