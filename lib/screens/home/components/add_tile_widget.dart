@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/models/section.dart';
 import 'package:lojavirtualapp/models/section_item.dart';
 import 'package:lojavirtualapp/screens/edit_product/components/image_source_sheet.dart';
-
+import 'package:provider/provider.dart';
 class AddTileWidget extends StatelessWidget {
 
-  const AddTileWidget(this.section);
-
-  final Section section;
 
   @override
   Widget build(BuildContext context) {
+    final section = context.watch<Section>();
+
     void onImageSelected(File file){
       section.addItem(SectionItem(image: file));
       Navigator.of(context).pop();

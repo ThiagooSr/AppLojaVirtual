@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualapp/models/section_item.dart';
 
-class Section {
+class Section extends ChangeNotifier {
 
   Section({this.name, this.type, this.items}){
     items = items ?? [];
@@ -20,6 +21,7 @@ class Section {
 
   void addItem(SectionItem item){
     items.add(item);
+    notifyListeners();
   }
 
   Section clone(){
