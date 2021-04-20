@@ -17,6 +17,12 @@ class SectionItem{
       image: image,
     );
   }
+  Map<String, dynamic> toMap(){
+    return {
+      'image': image,
+      'product': product,
+    };
+  }
 
   @override
   String toString() {
