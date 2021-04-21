@@ -21,7 +21,7 @@ class AddSectionWidget extends StatelessWidget {
         Expanded(
             child: FlatButton(
               onPressed: (){
-                homeManager.addSection(Section(type: 'Straggered'));
+                homeManager.addSection(Section(type: 'Staggered'));
               },
               textColor: Colors.white,
               child: const Text('Adicionar Grade'),
