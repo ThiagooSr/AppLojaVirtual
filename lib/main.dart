@@ -7,6 +7,7 @@ import 'package:lojavirtualapp/models/product.dart';
 import 'package:lojavirtualapp/models/product_manager.dart';
 //import 'package:lojavirtualapp/models/user.dart';
 import 'package:lojavirtualapp/models/user_manager.dart';
+import 'package:lojavirtualapp/screens/address/address_screen.dart';
 import 'package:lojavirtualapp/screens/base/base_screen.dart';
 import 'package:lojavirtualapp/screens/base/login/login_screen.dart';
 import 'package:lojavirtualapp/screens/base/signup/signup_screen.dart';
@@ -76,6 +77,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => BaseScreen());
           case '/cart':
             return MaterialPageRoute(builder: (_) => CartScreen());
+          case '/address':
+            return MaterialPageRoute(builder: (_) => AddressScreen());
           case '/product':
             return MaterialPageRoute(builder: (_) => ProductScreen(
               settings.arguments as Product

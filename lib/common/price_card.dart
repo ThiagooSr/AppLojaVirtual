@@ -33,7 +33,7 @@ class PriceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Text('Sbtotal'),
+                const Text('Subtotal'),
                 Text('R\$ ${productsPrice.toStringAsFixed(2)}')
               ],
             ),
