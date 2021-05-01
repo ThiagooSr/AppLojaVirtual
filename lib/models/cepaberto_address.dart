@@ -10,14 +10,14 @@ class CepAbertoAddress{
   final Estado estado;
 
   CepAbertoAddress.fromMap(Map<String, dynamic>map) :
-    altitude = map['altitude'] as double,
-    cep = map['cep'] as String,
-    latitude = double.tryParse(map['latitude'] as String),
-    longitude = double.tryParse(map['longitude'] as String),
-    logradouro = map['logradouro'] as String,
-    bairro = map['bairro'] as String,
-    cidade = Cidade.fromMap(map['cidade'] as Map<String, dynamic>),
-    estado = Estado.fromMap(map['estado'] as Map<String, dynamic>);
+        altitude = map['altitude'] as double,
+        cep = map['cep'] as String,
+        latitude = double.tryParse(map['latitude'] as String),
+        longitude = double.tryParse(map['longitude'] as String),
+        logradouro = map['logradouro'] as String,
+        bairro = map['bairro'] as String,
+        cidade = Cidade.fromMap(map['cidade'] as Map<String, dynamic>),
+        estado = Estado.fromMap(map['estado'] as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lojavirtualapp/models/address.dart';
+import 'package:lojavirtualapp/models/cart_manager.dart';
+import 'package:provider/provider.dart';
 
 class AddressInputField extends StatelessWidget {
 
@@ -12,10 +14,12 @@ class AddressInputField extends StatelessWidget {
     final primaryColor = Theme.of(context).primaryColor;
     String emptyValidator(String text) =>
         text.isEmpty ? 'Campo obrigatório' : null;
+
+    if(address.zipCode != null)
     return Column(
       children: <Widget>[
         TextFormField(
-          initialValue: address.state,
+          initialValue: address.street,
           decoration: const InputDecoration(
             isDense: true,
             labelText: 'Rua/Avenida',
@@ -119,12 +123,17 @@ class AddressInputField extends StatelessWidget {
           disabledColor: primaryColor.withAlpha(100),
           textColor: Colors.white,
           onPressed: (){
-
+             if(Form.of(context).validate()){
+               Form.of(context).save();
+               context.read<CartManager>().setAddress(address);
+             }
           },
           child: const Text('Calcular Frete'),
         ),
       ],
     );
+    else
+      return Container();
 
   }
 }
