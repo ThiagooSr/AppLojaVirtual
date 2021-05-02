@@ -15,7 +15,6 @@ class CartManager extends ChangeNotifier{
   List<CartProduct> items = [];
 
   User user;
-
   Address address;
 
   num productsPrice = 0.0;
@@ -34,10 +33,13 @@ class CartManager extends ChangeNotifier{
 
   void updateUser(UserManager userManager){
     user = userManager.user;
+    productsPrice = 0.0;
     items.clear();
+    removeAddress();
 
     if(user != null){
       _loadCartItems();
+      _loadUserAddress();
     }
   }
 
@@ -48,6 +50,14 @@ class CartManager extends ChangeNotifier{
             (d) => CartProduct.fromDocument(d)..addListener(_onItemUpdate)
     ).toList();
 
+  }
+
+  Future<void> _loadUserAddress() async{
+    if(user.address != null
+        && await calculateDelivery(user.address.lat, user.address.long)){
+      address = user.address;
+      notifyListeners();
+    }
   }
 
   void addToCart(Product product){
@@ -138,6 +148,7 @@ class CartManager extends ChangeNotifier{
     this.address = address;
 
     if(await calculateDelivery(address.lat, address.long)) {
+      user.setAddress(address);
       loading = false;
     }else{
       loading = false;

@@ -17,7 +17,7 @@ class CepInputField extends StatefulWidget {
   _CepInputFieldState createState() => _CepInputFieldState();
 }
 
-class _CepInputFieldState extends State<CepInputField> {
+   class _CepInputFieldState extends State<CepInputField> {
 
   final TextEditingController cepController = TextEditingController();
 

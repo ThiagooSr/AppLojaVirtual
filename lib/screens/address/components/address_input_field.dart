@@ -68,6 +68,7 @@ class AddressInputField extends StatelessWidget {
           ],
         ),
         TextFormField(
+          enabled: !cartManager.loading,
           initialValue: address.district,
           decoration: const InputDecoration(
             isDense: true,
