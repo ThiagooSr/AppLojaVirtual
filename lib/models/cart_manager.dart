@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:html/dom.dart';
 import 'package:lojavirtualapp/models/address.dart';
 import 'package:lojavirtualapp/models/cart_product.dart';
 import 'package:lojavirtualapp/models/product.dart';
@@ -20,6 +19,16 @@ class CartManager extends ChangeNotifier{
   Address address;
 
   num productsPrice = 0.0;
+  num deliveryPrice;
+
+  num get totalPrice => productsPrice + (deliveryPrice ?? 0);
+
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value){
+    _loading = value;
+    notifyListeners();
+  }
 
   final Firestore firestore = Firestore.instance;
 
@@ -93,7 +102,10 @@ class CartManager extends ChangeNotifier{
     return true;
   }
 
+  bool get isAddressValid => address != null && deliveryPrice != null;
+
   Future<void> getAddress(String cep) async{
+    loading = true;
     final cepAbertoService = CepAbertoService();
 
     try{
@@ -110,29 +122,43 @@ class CartManager extends ChangeNotifier{
         lat: cepAbertoAddress.latitude,
         long: cepAbertoAddress.longitude,
       );
-       notifyListeners();
+
     }
+    loading = false;
   } catch(e){
-      debugPrint(e.toString());
-    }
+      loading = false;
+      return Future.error('CEP Inválido');
     }
 
-    void setAddress(Address address){
+    }
+
+    Future<void> setAddress(Address address)async{
+    loading = true;
+
     this.address = address;
 
-    calculateDelivery(address.lat, address.long);
+    if(await calculateDelivery(address.lat, address.long)) {
+      loading = false;
+    }else{
+      loading = false;
+       return Future.error('Endereço fora do raio de entrega :(');
+    }
     }
 
     void removeAddress(){
     address = null;
+    deliveryPrice = null;
     notifyListeners();
     }
 
-    Future<void> calculateDelivery(double lat, double long) async{
+    Future<bool> calculateDelivery(double lat, double long) async{
     final DocumentSnapshot doc = await firestore.document('aux/delivery').get();
 
     final latStore = doc.data['lat'] as double;
     final longStore = doc.data['long'] as double;
+
+    final base = doc.data['base'] as num;
+    final km = doc.data['km'] as num;
 
     final maxkm = doc.data['maxkm'] as num;
 
@@ -141,9 +167,13 @@ class CartManager extends ChangeNotifier{
 
     dis/=1000.0;
 
-    if(dis <= maxkm){
-
+    if(dis > maxkm){
+      return false;
     }
+
+    deliveryPrice = base + dis * km;
+     return true;
+
 
     }
 }
