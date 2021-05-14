@@ -5,7 +5,7 @@ import 'package:lojavirtualapp/models/cart_manager.dart';
 import 'package:lojavirtualapp/models/home_manager.dart';
 import 'package:lojavirtualapp/models/product.dart';
 import 'package:lojavirtualapp/models/product_manager.dart';
-//import 'package:lojavirtualapp/models/user.dart';
+import 'package:lojavirtualapp/models/user.dart';
 import 'package:lojavirtualapp/models/user_manager.dart';
 import 'package:lojavirtualapp/screens/address/address_screen.dart';
 import 'package:lojavirtualapp/screens/base/base_screen.dart';
@@ -22,10 +22,10 @@ import 'package:provider/provider.dart';
 void main() async {
   runApp(MyApp());
 
-  DocumentSnapshot document =
-      await Firestore.instance.collection('pedidos').document('Thiago').get();
+  //DocumentSnapshot document =
+    //  await Firestore.instance.collection('pedidos').document('Thiago').get();
 
-  print(document.data);
+  //print(document.data);
 }
 
 class MyApp extends StatelessWidget {
@@ -74,14 +74,16 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case '/login':
             return MaterialPageRoute(builder: (_) => LoginScreen());
-          case '/base':
-            return MaterialPageRoute(builder: (_) => BaseScreen());
-          case '/cart':
-            return MaterialPageRoute(builder: (_) => CartScreen());
+
           case '/address':
             return MaterialPageRoute(builder: (_) => AddressScreen());
           case '/checkout':
             return MaterialPageRoute(builder: (_) => CheckoutScreen());
+          case '/cart':
+            return MaterialPageRoute(builder: (_) => CartScreen(),
+                settings: settings
+            );
+
           case '/product':
             return MaterialPageRoute(builder: (_) => ProductScreen(
               settings.arguments as Product
@@ -95,8 +97,13 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => SelectProductScreen());
           case '/signup':
             return MaterialPageRoute(builder: (_) => SignUpScreen());
+
+        case '/base':
           default:
-            return MaterialPageRoute(builder: (_) => BaseScreen());
+        return MaterialPageRoute(
+            builder: (_) => BaseScreen(),
+        settings: settings
+        );
         }
       },
     ),
