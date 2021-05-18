@@ -4,6 +4,7 @@ import 'package:lojavirtualapp/models/address.dart';
 import 'package:lojavirtualapp/models/cart_manager.dart';
 import 'package:lojavirtualapp/models/cart_product.dart';
 
+
 class Order {
 
   Order.fromCartManager(CartManager cartManager){
@@ -11,6 +12,18 @@ class Order {
     price = cartManager.totalPrice;
     userId = cartManager.user.id;
     address = cartManager.address;
+  }
+  Order.fromDocument(DocumentSnapshot doc){
+    orderId = doc.documentID;
+
+    items = (doc.data['items'] as List<dynamic>).map((e){
+      return CartProduct.fromMap(e as Map<String, dynamic>);
+    }).toList();
+
+    price = doc.data['price'] as num;
+    userId = doc.data['user'] as String;
+    address = Address.fromMap(doc.data['address'] as Map<String, dynamic>);
+    date = doc.data['date'] as Timestamp;
   }
 
   final Firestore firestore = Firestore.instance;
@@ -36,5 +49,10 @@ class Order {
   Address address;
 
   Timestamp date;
+
+  String toString() {
+    return 'Order{firestore: $firestore, orderId: $orderId, items: $items, price: $price, userId: $userId, address: $address, date: $date}';
+
+}
 
 }
