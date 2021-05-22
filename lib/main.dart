@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:lojavirtualapp/models/admin_users_manager.dart';
 import 'package:lojavirtualapp/models/cart_manager.dart';
 import 'package:lojavirtualapp/models/home_manager.dart';
+import 'package:lojavirtualapp/models/order.dart';
 import 'package:lojavirtualapp/models/orders_manager.dart';
 import 'package:lojavirtualapp/models/product.dart';
 import 'package:lojavirtualapp/models/product_manager.dart';
@@ -14,6 +15,7 @@ import 'package:lojavirtualapp/screens/base/login/login_screen.dart';
 import 'package:lojavirtualapp/screens/base/signup/signup_screen.dart';
 import 'package:lojavirtualapp/screens/cart/cart_screen.dart';
 import 'package:lojavirtualapp/screens/checkout/checkout_screen.dart';
+import 'package:lojavirtualapp/screens/confirmation/confirmation_screen.dart';
 import 'package:lojavirtualapp/screens/edit_product/edit_product_screen.dart';
 import 'package:lojavirtualapp/screens/product/product_screen.dart';
 import 'package:lojavirtualapp/screens/select_product/select_product_screen.dart';
@@ -102,6 +104,10 @@ class MyApp extends StatelessWidget {
             ));
           case '/select_product':
             return MaterialPageRoute(builder: (_) => SelectProductScreen());
+          case '/confirmation':
+            return MaterialPageRoute(builder: (_) => ConfirmationScreen(
+              settings.arguments as Order
+            ));
           case '/signup':
             return MaterialPageRoute(builder: (_) => SignUpScreen());
 
