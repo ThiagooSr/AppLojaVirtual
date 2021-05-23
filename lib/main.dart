@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import "package:flutter/material.dart";
+import 'package:lojavirtualapp/models/admin_orders__manager.dart';
 import 'package:lojavirtualapp/models/admin_users_manager.dart';
 import 'package:lojavirtualapp/models/cart_manager.dart';
 import 'package:lojavirtualapp/models/home_manager.dart';
@@ -7,7 +8,6 @@ import 'package:lojavirtualapp/models/order.dart';
 import 'package:lojavirtualapp/models/orders_manager.dart';
 import 'package:lojavirtualapp/models/product.dart';
 import 'package:lojavirtualapp/models/product_manager.dart';
-import 'package:lojavirtualapp/models/user.dart';
 import 'package:lojavirtualapp/models/user_manager.dart';
 import 'package:lojavirtualapp/screens/address/address_screen.dart';
 import 'package:lojavirtualapp/screens/base/base_screen.dart';
@@ -20,7 +20,7 @@ import 'package:lojavirtualapp/screens/edit_product/edit_product_screen.dart';
 import 'package:lojavirtualapp/screens/product/product_screen.dart';
 import 'package:lojavirtualapp/screens/select_product/select_product_screen.dart';
 import 'package:provider/provider.dart';
-//import 'package:provider/p';
+
 
 void main() async {
   runApp(MyApp());
@@ -66,7 +66,15 @@ class MyApp extends StatelessWidget {
             lazy: false,
             update: (_, userManager, adminUsersManager) =>
             adminUsersManager..updateUser(userManager),
-          )
+          ),
+          ChangeNotifierProxyProvider<UserManager, AdminOrderManager>(
+              create: (_) => AdminOrderManager(),
+              lazy: false,
+              update: (_, userManager, adminOrdersManager) =>
+              adminOrdersManager..updateAdmin(
+                adminEnable: userManager.adminEnabled
+              ),
+          ),
         ],
 
     child: MaterialApp(
