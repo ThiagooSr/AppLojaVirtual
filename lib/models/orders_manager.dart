@@ -31,13 +31,14 @@ class OrdersManager extends ChangeNotifier{
   void _listenToOrders(){
     //Esse void, busca no firestore o usuário pelo ID que está logado
     //naquele momento e busca todos os pedidos e coloca na lista de pedidos.
-    _subscription = firestore.collection('orders').where('user', isEqualTo: user.id)
+    firestore.collection('orders').where('user', isEqualTo: user.id)
         .snapshots().listen(
             (event) {
           orders.clear();
           for(final doc in event.documents){
             orders.add(Order.fromDocument(doc));
           }
+
 
           notifyListeners();
         });

@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lojavirtualapp/models/address.dart';
 import 'package:lojavirtualapp/models/cart_manager.dart';
@@ -33,6 +35,13 @@ class Order {
 
   final Firestore firestore = Firestore.instance;
 
+  DocumentReference get firestoreRef =>
+      firestore.collection('orders').document(orderId);
+
+  void updateFromDocument(DocumentSnapshot doc){
+    status = Status.values[doc.data['status'] as int];
+  }
+
   Future<void> save() async{
     firestore.collection('orders').document(orderId).setData(
       {
@@ -45,7 +54,30 @@ class Order {
       }
     );
   }
+//Aqui ele verifica o status do pedido para abilitar e desabilitar os botão
+  // de cancelar, recuar, avançar e endereço, no pedido.
+  Function() get back {
+    return status.index >= Status.transporting.index ?
+    (){
+      status = Status.values[status.index - 1];
+      firestoreRef.updateData({'status': status.index});
+    }: null;
+  }
 
+  Function() get advanced {
+    return status.index <= Status.transporting.index ?
+    (){
+      status = Status.values[status.index + 1];
+      firestoreRef.updateData({'status': status.index});
+    }:null;
+  }
+
+  void cancel(){
+    status = Status.canceled;
+    firestoreRef.updateData({'status': status.index});
+
+  }
+//============================================================================
   String orderId;
 
   List<CartProduct> items;
